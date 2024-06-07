@@ -1,81 +1,186 @@
-<div align="center">
+# Minimal API Fórmula 1
 
-  <img src="./.github/assets/blue-saiyan-bg.png" alt="Logo" height="200">
-  <h1 align="center"><strong>NODE BOILERPLATE - BLUE EDITION</strong></h1>
-  <p align="center">
-	  Don't start a new Node project from zero!<br> Use this simple <b>Nodejs</b> boilerplate with pre-configured <b>Typescript</b> in a modern way.
-  </p>
+Este projeto é uma API simples construída usando Fastify para fornecer informações sobre as equipes e pilotos de Fórmula 1. A API suporta CORS e permite que os usuários obtenham detalhes sobre equipes e pilotos através de vários endpoints.
 
-</div>
+## Índice
 
-<br />
+- [Instalação](#instalação)
+- [Uso](#uso)
+- [Endpoints da API](#endpoints-da-api)
+  - [GET /teams](#get-teams)
+  - [GET /drivers](#get-drivers)
+  - [GET /drivers/:id](#get-driversid)
+  - [GET /teams/:id](#get-teamsid)
+- [Scripts](#scripts)
+- [Dependências](#dependências)
+- [Licença](#licença)
 
-  <!-- Badges -->
-<div align="center">
-  
-  [![TypeScript version][ts-badge]][typescript-5-4]
-  [![Node.js version][nodejs-badge]][nodejs]
+## Instalação
 
-</div>
+1. Clone o repositório:
 
-# 🚀 Technologies
+   ```bash
+   git clone https://github.com/yuridiasp/minimal-api-f1.git
+   ```
 
-This code source was developed with the following items:
+2. Navegue até o diretório do projeto:
 
-### 📦 Dependencies
+   ```bash
+   cd minimal-api-f1
+   ```
 
-- [typescript][typescript-npm] - Superset for application scale JavaScript development
-- [tsx][tsx-npm] - TypeScript Execute (tsx): Enable Node.js to run TypeScript
-- [tsup][tsup-npm] - Bundle your TypeScript library with no config, powered by esbuild
-- [@types/node][@types/node-npm] - type definitions for node
+3. Instale as dependências:
 
-### 📄 Files
+   ```bash
+   npm install
+   ```
 
-- `.gitignore` - Ignore folders like node_modules
-- `.env` - Enviroment variables
-- `tsconfig.json` - Typescript configure Options
+## Uso
 
-### ⚡ Scripts
+### Desenvolvimento
 
-- `npm run dist`: Compiles TypeScript files to JavaScript in the dist directory.
-- `npm run start:dev`: Runs the server in development mode with environment variables loaded from the .env file.
-- `npm run start:watch`: Runs the server in development mode with support for automatic reload on file changes.
-- `npm run start:dist`: Compiles the project and runs the compiled version from the dist directory.
-
-# 👨‍💻 How To Use
-
-click in **[Use this template]** OR
-
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v20+](https://nodejs.org/en/) + [NPM v10+](https://nodejs.org/en/) installed on your computer. From your command line:
+Para iniciar o servidor em modo de desenvolvimento, execute o seguinte comando:
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/felipeAguiarCode/node-blue-boilerplate
-
-# Go into the repository
-$ cd node-blue-boilerplate
-
-# Install dependencies
-$ npm install
+npm run start:dev
 ```
 
-## Author
+O servidor será iniciado e ouvirá na porta `3333`. Você pode acessar a API em `http://localhost:3333`.
 
-| [<img src="https://avatars3.githubusercontent.com/u/37452836?s=96&v=4"><br><sub>Felipe Aguiar</sub>](https://github.com/felipeAguiarCode) |
-| :---------------------------------------------------------------------------------------------------------------------------------------: |
-|                                            [Linkedin](www.linkedin.com/in/felipe-aguiar-exe/)                                             |
+### Produção
 
-# Credits
+Para iniciar o servidor em modo de produção, execute os seguintes comandos:
 
-icons by [Pino Lamanna][dribble-icon]
+```bash
+npm run dist
+npm run start:dist
+```
 
-[typescript]: https://www.typescriptlang.org/
-[typescript-5-4]: https://www.typescriptlang.org/
-[ts-badge]: https://img.shields.io/badge/TypeScript-5.4-blue.svg
-[nodejs-badge]: https://img.shields.io/badge/Node.js->=%2020.00-blue.svg
-[nodejs]: https://nodejs.org/
-[dribble-icon]: https://dribbble.com/Schakalwal
-[typescript-npm]: https://www.npmjs.com/package/typescript
-[tsx-npm]: https://www.npmjs.com/package/tsx
-[tsup-npm]: https://www.npmjs.com/package/tsup
-[@types/node-npm]: https://www.npmjs.com/package/@types/node
+## Endpoints da API
+
+### GET /teams
+
+Obtém a lista de todas as equipes de Fórmula 1.
+
+- **URL:** `/teams`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "teams": [
+      { "id": 1, "name": "Mclaren", "base": "Woking, United Kingdom" },
+      { "id": 2, "name": "Mercedes", "base": "Brackley, United Kingdom" },
+      ...
+    ]
+  }
+  ```
+
+### GET /drivers
+
+Obtém a lista de todos os pilotos de Fórmula 1.
+
+- **URL:** `/drivers`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "drivers": [
+      { "id": 1, "name": "Max Verstappen", "team": "Red Bull Racing" },
+      { "id": 2, "name": "Lewis Hamilton", "team": "Mercedes" },
+      ...
+    ]
+  }
+  ```
+
+### GET /drivers/:id
+
+Obtém os detalhes de um piloto específico pelo seu ID.
+
+- **URL:** `/drivers/:id`
+- **Método:** `GET`
+- **Parâmetros de URL:** `id` - ID do piloto
+- **Resposta:**
+  ```json
+  {
+    "driver": {
+      "id": 1,
+      "name": "Max Verstappen",
+      "team": "Red Bull Racing"
+    }
+  }
+  ```
+  ou
+  ```json
+  {
+    "message": "Driver not found"
+  }
+  ```
+
+### GET /teams/:id
+
+Obtém os detalhes de uma equipe específica pelo seu ID.
+
+- **URL:** `/teams/:id`
+- **Método:** `GET`
+- **Parâmetros de URL:** `id` - ID da equipe
+- **Resposta:**
+  ```json
+  {
+    "team": {
+      "id": 1,
+      "name": "Mclaren",
+      "base": "Woking, United Kingdom"
+    }
+  }
+  ```
+  ou
+  ```json
+  {
+    "message": "Team not found"
+  }
+  ```
+
+## Scripts
+
+- `dist`: Compila o código TypeScript para JavaScript.
+- `start:dev`: Inicia o servidor em modo de desenvolvimento com recarregamento automático.
+- `start:watch`: Inicia o servidor em modo de desenvolvimento com observação de arquivos.
+- `start:dist`: Compila o código e inicia o servidor em modo de produção.
+
+## Dependências
+
+- Produção:
+  - `@fastify/cors`: ^9.0.1
+  - `fastify`: ^4.27.0
+
+- Desenvolvimento:
+  - `@types/cors`: ^2.8.17
+  - `@types/node`: ^20.11.30
+  - `tsup`: ^8.0.2
+  - `tsx`: ^4.7.1
+  - `typescript`: ^5.4.3
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## Desenvolvedor
+
+<p>
+    <a href="https://github.com/yuridiasp">
+        <img
+          align=left
+          margin=10
+          width=80
+          src="https://avatars.githubusercontent.com/u/81938754?v=4"
+        />
+    </a>
+      <p>
+        <p>&nbsp&nbsp<a style="color: white;" href="https://github.com/yuridiasp">Yuri Dias</a><br>
+        &nbsp&nbsp&nbsp
+    </p>
+</p>
+
+<br>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yuridiasp/) [![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/channels/@yuridiasp/) [![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/yuri.dias.7739/) [![X](https://img.shields.io/badge/X-000?style=for-the-badge&logo=x)](https://x.com/YuriDias_P) [![Instagram](https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/yuridiasp/) [![E-mail](https://img.shields.io/badge/-Email-000?style=for-the-badge&logo=microsoft-outlook&logoColor=007BFF)](mailto:yuristardias@hotmail.com)
